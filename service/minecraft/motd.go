@@ -5,7 +5,6 @@ import (
 
 	"github.com/layou233/ZBProxy/config"
 	"github.com/layou233/ZBProxy/service/transfer"
-	"github.com/layou233/ZBProxy/version"
 )
 
 type motdObject struct {
@@ -16,7 +15,10 @@ type motdObject struct {
 	Players struct {
 		Max    int `json:"max"`
 		Online int `json:"online"`
-		Sample any `json:"sample,omitempty"`
+		/*		Sample []struct {
+				Name string `json:"name"`
+				Id   string `json:"id"`
+			} `json:"sample"`*/
 	} `json:"players"`
 	Description struct {
 		Text string `json:"text"`
@@ -29,23 +31,20 @@ func generateMOTD(protocolVersion int, s *config.ConfigProxyService, options *tr
 	if online < 0 {
 		online = options.OnlineCount.Load()
 	}
-
 	motd, _ := json.Marshal(motdObject{
 		Version: struct {
 			Name     string `json:"name"`
 			Protocol int    `json:"protocol"`
 		}{
-			Name:     "ZBProxy " + version.Version,
+			Name:     "\u4e3b\u64ad\u4ee3\u7406 By Layou233",
 			Protocol: protocolVersion,
 		},
 		Players: struct {
 			Max    int `json:"max"`
 			Online int `json:"online"`
-			Sample any `json:"sample,omitempty"`
 		}{
 			Max:    s.Minecraft.OnlineCount.Max,
 			Online: int(online),
-			Sample: s.Minecraft.OnlineCount.Sample,
 		},
 		Description: struct {
 			Text string `json:"text"`
@@ -54,6 +53,5 @@ func generateMOTD(protocolVersion int, s *config.ConfigProxyService, options *tr
 		},
 		Favicon: s.Minecraft.MotdFavicon,
 	})
-
 	return motd
 }
