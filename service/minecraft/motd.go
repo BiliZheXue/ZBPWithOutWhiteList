@@ -36,7 +36,7 @@ func generateMOTD(protocolVersion int, s *config.ConfigProxyService, options *tr
 			Name     string `json:"name"`
 			Protocol int    `json:"protocol"`
 		}{
-			Name:     "\u4e3b\u64ad\u4ee3\u7406 By Layou233",
+			Name:     "Powered By Natrium Boost",
 			Protocol: protocolVersion,
 		},
 		Players: struct {
